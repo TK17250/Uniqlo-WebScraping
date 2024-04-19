@@ -13,8 +13,6 @@ attrs==23.2.0
     # via trio
 certifi==2024.2.2
     # via selenium
-cffi==1.16.0
-    # via trio
 h11==0.14.0
     # via wsproto
 idna==3.7
@@ -25,8 +23,6 @@ outcome==1.3.0.post0
     # via trio
 pandas==2.2.2
     # via uniqlowebscraping
-pycparser==2.22
-    # via cffi
 pysocks==1.7.1
     # via urllib3
 python-dateutil==2.9.0.post0
@@ -52,5 +48,6 @@ tzdata==2024.1
     # via pandas
 urllib3==2.2.1
     # via selenium
+    # via urllib3
 wsproto==1.2.0
     # via trio-websocket
