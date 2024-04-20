@@ -16,15 +16,23 @@ charset-normalizer==3.3.2
     # via requests
 idna==3.7
     # via requests
+markdown-it-py==3.0.0
+    # via rich
+mdurl==0.1.2
+    # via markdown-it-py
 numpy==1.26.4
     # via pandas
 pandas==2.2.2
     # via uniqlowebscraping
+pygments==2.17.2
+    # via rich
 python-dateutil==2.9.0.post0
     # via pandas
 pytz==2024.1
     # via pandas
 requests==2.31.0
+    # via uniqlowebscraping
+rich==13.7.1
     # via uniqlowebscraping
 six==1.16.0
     # via python-dateutil
