@@ -6,8 +6,9 @@ authors = [
     { name = "TK17250", email = "TXK285@gmail.com" }
 ]
 dependencies = [
-    "selenium>=4.19.0",
     "pandas>=2.2.2",
+    "beautifulsoup4>=4.12.3",
+    "requests>=2.31.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
