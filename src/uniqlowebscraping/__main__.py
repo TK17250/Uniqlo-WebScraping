@@ -41,15 +41,39 @@ box_menu += "\n   [deep_sky_blue1][1] Women[/deep_sky_blue1]\t\t\t[deep_sky_blue
 box_menu += "\n   [deep_sky_blue1][3] Kids[/deep_sky_blue1]\t\t\t[deep_sky_blue1][4] Baby[/deep_sky_blue1]"
 console.print(box_menu)
 
-# Box menu type of item
-box_menu = "\n[bold deep_sky_blue1]Type of item :[/bold deep_sky_blue1]"
-box_menu += "\n   [deep_sky_blue1][1] Tops[/deep_sky_blue1]\t\t\t[deep_sky_blue1][2] Outerwear[/deep_sky_blue1]\t\t\t[deep_sky_blue1][3] Bottoms[/deep_sky_blue1]"
-box_menu += "\n   [deep_sky_blue1][4] Innerwear[/deep_sky_blue1]\t\t[deep_sky_blue1][5] Loungewear[/deep_sky_blue1]\t\t\t[deep_sky_blue1][6] Sport Utility Wear[/deep_sky_blue1]"
-box_menu += "\n   [deep_sky_blue1][7] UV Protection[/deep_sky_blue1]\t\t[deep_sky_blue1][8] Accessories[/deep_sky_blue1]"
-console.print(box_menu)
-
 # Input
 category = console.input("\n[deep_sky_blue1][-] Select category: [deep_sky_blue1]")
+category = category.lower()
+
+# Box menu type of item
+box_menu = "\n[bold deep_sky_blue1]Type of item :[/bold deep_sky_blue1]"
+match category:
+    case "women" | "1":
+        box_menu += "\n   [deep_sky_blue1][1] Tops[/deep_sky_blue1]\t\t\t[deep_sky_blue1][2] Outerwear[/deep_sky_blue1]\t\t\t[deep_sky_blue1][3] Bottoms[/deep_sky_blue1]"
+        box_menu += "\n   [deep_sky_blue1][4] Dresses[/deep_sky_blue1]\t\t\t[deep_sky_blue1][5] Innerwear[/deep_sky_blue1]\t\t\t[deep_sky_blue1][6] Loungewear[/deep_sky_blue1]"
+        box_menu += "\n   [deep_sky_blue1][7] Sport Utility Wear[/deep_sky_blue1]\t[deep_sky_blue1][8] UV Protection[/deep_sky_blue1]\t\t[deep_sky_blue1][9] Accessories[/deep_sky_blue1]"
+        box_menu += "\n   [deep_sky_blue1][10] Maternity[/deep_sky_blue1]"
+
+    case "men" | "2":
+        box_menu += "\n   [deep_sky_blue1][1] Tops[/deep_sky_blue1]\t\t\t[deep_sky_blue1][2] Outerwear[/deep_sky_blue1]\t\t\t[deep_sky_blue1][3] Bottoms[/deep_sky_blue1]"
+        box_menu += "\n   [deep_sky_blue1][4] Innerwear[/deep_sky_blue1]\t\t[deep_sky_blue1][5] Loungewear[/deep_sky_blue1]\t\t\t[deep_sky_blue1][6] Sport Utility Wear[/deep_sky_blue1]"
+        box_menu += "\n   [deep_sky_blue1][7] UV Protection[/deep_sky_blue1]\t\t[deep_sky_blue1][8] Accessories[/deep_sky_blue1]"
+
+    case "kids" | "3":
+        box_menu += "\n   [deep_sky_blue1][1] Tops[/deep_sky_blue1]\t\t\t[deep_sky_blue1][2] Outerwear[/deep_sky_blue1]\t\t\t[deep_sky_blue1][3] Bottoms[/deep_sky_blue1]"
+        box_menu += "\n   [deep_sky_blue1][4] Dresses[/deep_sky_blue1]\t\t\t[deep_sky_blue1][5] Innerwear[/deep_sky_blue1]\t\t\t[deep_sky_blue1][6] Loungewear[/deep_sky_blue1]"
+        box_menu += "\n   [deep_sky_blue1][7] Sport Utility Wear[/deep_sky_blue1]\t[deep_sky_blue1][8] UV Protection[/deep_sky_blue1]\t\t[deep_sky_blue1][9] Accessories[/deep_sky_blue1]"
+
+    case "baby" | "4":
+        box_menu += "\n   [deep_sky_blue1][1] Newborn[/deep_sky_blue1]\t\t[deep_sky_blue1][2] Toddler[/deep_sky_blue1]"
+    
+    case _:
+        console.print("Please select the correct category", style="bold red")
+        quit()
+
+console.print(f"{box_menu}\n")
+
+# Input
 type_of_item = console.input("[deep_sky_blue1][-] Select type of item: [deep_sky_blue1]")
 amount_of_item = console.input("[deep_sky_blue1][-] Amount of item: [deep_sky_blue1]")
 amount_of_item = int(amount_of_item)
@@ -60,9 +84,42 @@ amount_of_item = int(amount_of_item)
 # amount_of_item = 1
 
 # Select category
-match category.lower():
+match category:
     case "women" | "1":
-        url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25997&limit={amount_of_item}"
+        match type_of_item.lower():
+            case "tops" | "1":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25990&limit={amount_of_item}"
+
+            case "outerwear" | "2":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25991&limit={amount_of_item}"
+
+            case "bottoms" | "3":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25992&limit={amount_of_item}"
+
+            case "dresses" | "4":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C8406&limit={amount_of_item}"
+
+            case "innerwear" | "5":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25994&limit={amount_of_item}"
+
+            case "loungewear" | "6":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25993&limit={amount_of_item}"
+
+            case "sport utility wear" | "7":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C13914&limit={amount_of_item}"
+
+            case "uv protection" | "8":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C80401&limit={amount_of_item}"
+
+            case "accessories" | "9":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25995&limit={amount_of_item}"
+
+            case "maternity" | "10":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C8429&limit={amount_of_item}"
+
+            case _:
+                console.print("Please select the correct type of item", style="bold red")
+                quit()
 
     case "men" | "2":
         match type_of_item.lower():
@@ -95,10 +152,49 @@ match category.lower():
                 quit()
 
     case "kids" | "3":
-        url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25997&limit={amount_of_item}"
+        match type_of_item.lower():
+            case "tops" | "1":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25959&limit={amount_of_item}"
+
+            case "outerwear" | "2":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25934&limit={amount_of_item}"
+
+            case "bottoms" | "3":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C26135&limit={amount_of_item}"
+
+            case "dresses" | "4":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C8529&limit={amount_of_item}"
+
+            case "innerwear" | "5":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C26140&limit={amount_of_item}"
+
+            case "loungewear" | "6":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C8539&limit={amount_of_item}"
+
+            case "sport utility wear" | "7":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C14012&limit={amount_of_item}"
+
+            case "uv protection" | "8":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C80403&limit={amount_of_item}"
+
+            case "accessories" | "9":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C26187&limit={amount_of_item}"
+
+            case _:
+                console.print("Please select the correct type of item", style="bold red")
+                quit()
 
     case "baby" | "4":
-        url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C25997&limit={amount_of_item}"
+        match type_of_item.lower():
+            case "newborn" | "1":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C32823&limit={amount_of_item}"
+
+            case "toddler" | "2":
+                url = f"https://www.uniqlo.com/th/api/commerce/v3/en/products?path=%2C%2C32655&limit={amount_of_item}"
+
+            case _:
+                console.print("Please select the correct type of item", style="bold red")
+                quit()
 
     case _:
         console.print("Please select the correct category", style="bold red")
