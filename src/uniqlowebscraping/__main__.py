@@ -5,6 +5,7 @@ from rich.traceback import install
 from rich.progress import Progress
 import json
 import random
+import os
 
 # Set up
 install()
@@ -28,7 +29,7 @@ start_title = r"""
 
 """
 console.print(start_title, style="bold deep_sky_blue1")
-console.print("\t\t\t\tVersion 0.1.0\t\t\t\t", style="deep_sky_blue1")
+console.print("\t\t\t\tVersion 1.0.0\t\t\t\t", style="deep_sky_blue1")
 
 # Credit
 credit = "[deep_sky_blue1]\n\t[-]\tDeveloper:\t[bold deep_sky_blue1]TK[/bold deep_sky_blue1]\t\t\t\t[-][/deep_sky_blue1]"
@@ -77,11 +78,7 @@ console.print(f"{box_menu}\n")
 type_of_item = console.input("[deep_sky_blue1][-] Select type of item: [deep_sky_blue1]")
 amount_of_item = console.input("[deep_sky_blue1][-] Amount of item: [deep_sky_blue1]")
 amount_of_item = int(amount_of_item)
-
-# Test case
-# category = "1"
-# type_of_item = "1"
-# amount_of_item = 1
+download_images = console.input("[deep_sky_blue1][-] Download images (y/n): [deep_sky_blue1]")
 
 # Select category
 match category:
@@ -215,5 +212,67 @@ data = json.loads(data_dumps) # Convert to json
 
 # Data
 df = pd.DataFrame(data["result"]["items"])
-df.to_csv("uniqlo.csv", index=False)
-if data["result"] : console.print("Scraping success fully!", style="bold green")
+df.drop(["careInstruction", "sizeChartUrl", "hideReview", "designDetail", "sizeInformation"], axis=1, inplace=True)
+df.rename(columns={"images": "images_url"}, inplace=True)
+if os.path.exists("data") == False: os.makedirs("data") # Create folder data
+
+# Check for download images
+if download_images.lower() == "y" or download_images.lower() == "yes":
+    # Progress bar download images
+    FOLDER_IMAGES = "data/images"
+    all_item = []
+    with Progress() as progress:
+        task = progress.add_task("[cyan]Downloading :", total=amount_of_item)
+        
+        # Download images
+        for item in range(amount_of_item):
+            item_name = data["result"]["items"][item]["name"]
+            item_name = item_name.replace(" ", "_")
+            images_item = {}
+            all_item.append(item_name)
+
+            # Download images and read all dict_images
+            for dict_images in data["result"]["items"][item]["images"]:
+                dict_images_path = {dict_images: []}
+
+                if not os.path.exists(f"{FOLDER_IMAGES}/{item_name}/{dict_images}"):
+                    os.makedirs(f"{FOLDER_IMAGES}/{item_name}/{dict_images}")
+
+                # Read all images
+                for image in data["result"]["items"][item]["images"][dict_images]:
+                    url = image["url"]
+                    filename = f"data/images/{item_name}/{dict_images}/{url.split('/')[-1]}"
+
+                    # download and save images
+                    with open(filename, "wb") as file:
+                        download = requests.get(url, headers=headers)
+                        file.write(download.content)
+
+                    dict_images_path[dict_images].append(filename) # Add filename to dict_images_path
+
+                images_item.update(dict_images_path) # Add dict image to images itmem
+
+            # Add column images_path to df
+            df.loc[item, "images_path"] = [images_item]
+
+            # Update progress bar
+            progress.update(task, advance=1)
+
+    df.insert(5, "images_path", df.pop("images_path")) # move column images_url to after column 5
+
+elif download_images.lower() == "n" or download_images.lower() == "no":
+    all_item = [data["result"]["items"][item]["name"] for item in range(amount_of_item)]
+
+else :
+    console.print("Please select the correct option", style="bold red")
+    quit()
+
+# Output
+for name in all_item: console.print(f"[bold green]Download data from[/bold green] [green]{name}[/green] [bold green]success![/bold green]")
+console.print("==================================== Output ====================================", style="bold deep_sky_blue1")
+df.to_csv("data/uniqlo.csv", index=False) # Save to csv
+console.print("Data saved to data/uniqlo.csv", style="bold green")
+
+# Status
+if data["result"] : console.print("Scraping successfully!", style="bold green")
+else: console.print("Scraping failed!", style="bold red")

@@ -1,6 +1,6 @@
 [project]
 name = "uniqlowebscraping"
-version = "0.1.0"
+version = "1.0.0"
 description = "Add your description here"
 authors = [
     { name = "TK17250", email = "TXK285@gmail.com" }
